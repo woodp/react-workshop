@@ -9,22 +9,24 @@ import {
 
 
 export default function App() {
-  const [userName, setUserName ] = useState(false)
+  const [userName, setUserName ] = useState('')
+  const [password, setPassword ] = useState('')
+  const [loggedIn, setLoggedIn ] = useState(false)
 
   const loginSubmit = (event) => {
     event.preventDefault();
-    if (userName == 'admin' && password == 'password123!') {
-      
+    if (userName == 'admin@admin.com' && password == 'password123!') {
+      setLoggedIn(true)
     }
   }
 
   return (
-    user ?
+    loggedIn ?
       <p>logged in</p>
       :
     <form onSubmit={loginSubmit}>
       <MDBInput className='mb-4' type='email' id='email' label='Email address' onChange={e => setUserName(e.target.value)} />
-      <MDBInput className='mb-4' type='password' id='password' label='Password' />
+      <MDBInput className='mb-4' type='password' id='password' label='Password' onChange={e => setPassword(e.target.value)} />
 
       <MDBRow className='mb-4'>
         <MDBCol className='d-flex justify-content-center'>
