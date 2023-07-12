@@ -17,7 +17,6 @@ const schema = yup
             .required('Confirm Password is required')
             .oneOf([yup.ref('password')], 'Passwords must match'),
     website: yup.string().url().nullable(),
-    createdOn: yup.date().default(() => new Date())
   })
   .required()
 
