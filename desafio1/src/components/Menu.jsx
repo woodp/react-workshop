@@ -17,20 +17,17 @@ export const Menu = () => {
       <MDBContainer fluid>
         <MDBNavbarBrand href='#'>Bienvenido, {user.firstName || "Amigo"}</MDBNavbarBrand>
         
-          <MDBNavbarNav>
-            <Link className='menu__link' to='/'>
-              Gallery
-            </Link>
-            <Link className='menu__link' to='/register'>
-              Registrarse
-            </Link>
-            <Link className='menu__link' to='/login'>
-              Iniciar Sesión
-            </Link>
-            <Link className='menu__link' to='#logout' onClick={doLogout}>
-              Cerrar Sesión
-            </Link>
-          </MDBNavbarNav>
+        <MDBNavbarNav>
+          <Link className='menu__link' to='/'>
+            Gallery
+          </Link>
+          <Link className='menu__link' to='/register'>
+            Registrarse
+          </Link>
+          <Link className='menu__link' to='#logout' onClick={doLogout}>
+            Cerrar Sesión
+          </Link>
+        </MDBNavbarNav>
 
       </MDBContainer>
     </MDBNavbar>

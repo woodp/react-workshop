@@ -29,7 +29,7 @@ export default function RegisterPage() {
   const onSubmit = (data) => {
     
     console.log(data)
-    data.loginPassword = bcrypt.hashSync(data.loginPassword, '$2a$10$CwTycUXWue0Thq9StjUM0u')
+    data.password = bcrypt.hashSync(data.password, '$2a$10$CwTycUXWue0Thq9StjUM0u')
     dispatch(login(data))
     localStorage.setItem('user', JSON.stringify(data))
     navigate('/')
