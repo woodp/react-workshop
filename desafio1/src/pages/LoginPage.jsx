@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { TEInput, TERipple } from "tw-elements-react";
 import { login } from '../store/slices/authSlice';
 import { useForm } from "react-hook-form"
+import bcrypt from 'bcryptjs'
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -11,6 +12,7 @@ const LoginPage = () => {
 
   const { register, handleSubmit, formState: { errors } } = useForm();
   const onSubmit = (data) => {
+    data.loginPassword = bcrypt.hashSync(data.loginPassword, '$2a$10$CwTycUXWue0Thq9StjUM0u')
     dispatch(login(data))
     localStorage.setItem('user', JSON.stringify(data))
     navigate('/')

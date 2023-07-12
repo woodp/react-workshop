@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { useNavigate } from "react-router-dom"
+import bcrypt from 'bcryptjs'
 
 const schema = yup
   .object({
@@ -26,8 +27,9 @@ export default function RegisterPage() {
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema) })
 
   const onSubmit = (data) => {
-    console.log('foobar')
+    
     console.log(data)
+    data.loginPassword = bcrypt.hashSync(data.loginPassword, '$2a$10$CwTycUXWue0Thq9StjUM0u')
     dispatch(login(data))
     localStorage.setItem('user', JSON.stringify(data))
     navigate('/')
