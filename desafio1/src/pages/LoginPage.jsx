@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { TEInput, TERipple } from "tw-elements-react";
 import { login } from '../store/slices/authSlice';
 import { useForm } from "react-hook-form"
@@ -35,13 +35,6 @@ const LoginPage = () => {
           <div className="mb-12 md:mb-0 md:w-8/12 lg:w-5/12 xl:w-5/12">
             <form onSubmit={handleSubmit(onSubmit)}>
 
-              {/* <!-- Separator between social media sign in and email/password sign in --> */}
-              <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
-                <p className="mx-4 mb-0 text-center font-semibold dark:text-white">
-                  Or
-                </p>
-              </div>
-
               {/* <!-- Email input --> */}
               <TEInput
                 type="email"
@@ -63,7 +56,7 @@ const LoginPage = () => {
               <div className="mb-6 flex items-center justify-between">
 
                 {/* <!--Forgot password link--> */}
-                <a href="#!">Forgot password?</a>
+                <Link to="#!">Forgot password?</Link>
               </div>
 
               <div className="mb-6 flex items-center justify-between">
