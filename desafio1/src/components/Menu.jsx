@@ -10,7 +10,7 @@ export const Menu = () => {
   return (
     <MDBNavbar expand='lg' light bgColor='light'>
       <MDBContainer fluid>
-        <MDBNavbarBrand href='#'>Bienvenido, {user?.firstName || "Amigo"}</MDBNavbarBrand>
+        <MDBNavbarBrand href='#'>Bienvenido, {user?.name || "Amigo"}</MDBNavbarBrand>
         
         <MDBNavbarNav>
           <Link className='menu__link' to='/'>
