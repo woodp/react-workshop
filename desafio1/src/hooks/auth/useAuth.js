@@ -30,6 +30,7 @@ export const useAuth = () => {
                 email,
                 password
             }
+            console.log(user)
             const { data } = await userAPI.post('/login', user)
             dispatch(login(data))
             localStorage.setItem('user', JSON.stringify(data))
@@ -48,6 +49,7 @@ export const useAuth = () => {
         dispatch(resetErrors())
         try {
             const user = { name, surname, email, password }
+            console.log(user)
             const { data } = await userAPI.post('/register', user)
             dispatch(login(data))
             localStorage.setItem('user', JSON.stringify(data))

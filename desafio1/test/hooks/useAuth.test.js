@@ -20,44 +20,38 @@ const getMockStore = (initialState) => {
 describe('Pruebas de useAuth', () => {
     beforeEach(()=>localStorage.clear())
 
-    test('test', () => {
-        expect(true).toBeTruthy()
-    })
-
     test('doLogin debe de realizar el login correctamente', async() => {
         const mockStore = getMockStore({ ...notAuthenticatedState })
         const { result } = renderHook(() => useAuth(), {
             wrapper: ({ children }) => <Provider store={mockStore}>{children}</Provider>
         })
         await act(async()=>{
-            await result.current.doLogin({...testUserCredentials})
+            await result.current.doLogin(testUserCredentials.email, testUserCredentials.password)
         })
 
-        const {errorMessage, status, user}=result.current;
-        expect({errorMessage, status, user}).toEqual({
-            errorMessage: undefined,
+        const {status, user}=result.current;
+        expect({status, user}).toEqual({
             status: 'authenticated',
             user: expect.any(Object)
         })
     })
 
-    // test('startLogin debe de fallar la autenticación', async() => {
-    //     const mockStore = getMockStore({ ...notAuthenticatedState })
-    //     const { result } = renderHook(() => useAuthStore(), {
-    //         wrapper: ({ children }) => <Provider store={mockStore}>{children}</Provider>
-    //     })
-    //     await act(async()=>{
-    //         await result.current.startLogin({email:"test@gmail.com",password:"456789"})
-    //     })
-    //     const {errorMessage, status, user}=result.current;
-    //     expect({errorMessage, status, user}).toEqual({
-    //         errorMessage: expect.any(String),
-    //         status: 'not-authenticated',
-    //         user: {}
-    //     })
-    //     expect(localStorage.getItem('token')).toBe(null)
-    //     waitFor(
-    //         ()=>expect(result.current.errorMessage).toBe(undefined)
-    //     )
-    // })
+    test('startLogin debe de fallar la autenticación', async() => {
+        const mockStore = getMockStore({ ...notAuthenticatedState })
+        const { result } = renderHook(() => useAuth(), {
+            wrapper: ({ children }) => <Provider store={mockStore}>{children}</Provider>
+        })
+        await act(async()=>{
+            await result.current.doLogin( "test@gmail.com", "456789")
+        })
+        const { status, user}=result.current;
+        expect({ status, user}).toEqual({
+            status: 'not-authenticated',
+            user: undefined
+        })
+        expect(localStorage.getItem('token')).toBe(null)
+        waitFor(
+            ()=>expect(result.current.errorMessage).toBe(undefined)
+        )
+    })
 })
