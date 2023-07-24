@@ -11,7 +11,7 @@ const schema = yup
     firstName: yup.string().required(),
     lastName: yup.string().required(),
     email: yup.string().required().email('Email has an invalid format'),
-    password: yup.string().required().min(8, 'Password length must be at least 8 characters'),
+    password: yup.string().required().min(6, 'Password length must be at least 6 characters'),
     confirmPassword: yup.string()
             .required('Confirm Password is required')
             .oneOf([yup.ref('password')], 'Passwords must match'),
@@ -27,8 +27,6 @@ export default function RegisterPage() {
     doRegister(data.firstName, data.lastName, data.email, data.password)
     navigate('/')
   }
-
-  console.log(errors)
 
   return (
     <section className="h-screen">
