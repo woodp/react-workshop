@@ -71,3 +71,7 @@ button:focus-visible {
 .menu__link {
   padding: 10px;
 }
+
+.menu__link_right {
+  margin-left: auto;
+}

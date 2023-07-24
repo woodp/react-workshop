@@ -1,11 +1,10 @@
 import { TEInput, TERipple } from "tw-elements-react"
 import { useForm } from "react-hook-form"
-import { login } from "../store/slices/authSlice"
-import { useDispatch } from "react-redux"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { Link, useNavigate } from "react-router-dom"
-import bcrypt from 'bcryptjs'
+import { useAuth } from "../hooks/auth/useAuth"
+
 
 const schema = yup
   .object({
@@ -16,21 +15,16 @@ const schema = yup
     confirmPassword: yup.string()
             .required('Confirm Password is required')
             .oneOf([yup.ref('password')], 'Passwords must match'),
-    website: yup.string().url().nullable(),
   })
   .required()
 
 export default function RegisterPage() {
-  const dispatch = useDispatch()
+  const { doRegister } = useAuth();
   const navigate = useNavigate()
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema) })
 
   const onSubmit = (data) => {
-    
-    console.log(data)
-    data.password = bcrypt.hashSync(data.password, '$2a$10$CwTycUXWue0Thq9StjUM0u')
-    dispatch(login(data))
-    localStorage.setItem('user', JSON.stringify(data))
+    doRegister(data.firstName, data.lastName, data.email, data.password)
     navigate('/')
   }
 
@@ -99,15 +93,6 @@ export default function RegisterPage() {
                 className="mb-6"
                 size="lg"
                 {...register("confirmPassword")}
-              ></TEInput>
-
-            <div>{errors.website?.message}</div>
-            <TEInput
-                type="text"
-                label="Website"
-                className="mb-6"
-                size="lg"
-                {...register("website")}
               ></TEInput>
 
               {/* <!-- Login button --> */}

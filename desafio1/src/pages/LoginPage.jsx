@@ -1,20 +1,16 @@
-import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { TEInput, TERipple } from "tw-elements-react";
-import { login } from '../store/slices/authSlice';
 import { useForm } from "react-hook-form"
-import bcrypt from 'bcryptjs'
+import { useAuth } from "../hooks/auth/useAuth";
 
 const LoginPage = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const { doLogin } = useAuth();
 
   const { register, handleSubmit, formState: { errors } } = useForm();
+
   const onSubmit = (data) => {
-    data.loginPassword = bcrypt.hashSync(data.loginPassword, '$2a$10$CwTycUXWue0Thq9StjUM0u')
-    dispatch(login(data))
-    localStorage.setItem('user', JSON.stringify(data))
+    doLogin(data.loginEmail, data.loginPassword);
     navigate('/')
   }
 
@@ -52,12 +48,6 @@ const LoginPage = () => {
                 size="lg"
                 {...register("loginPassword", { required: true})}
               ></TEInput>
-
-              <div className="mb-6 flex items-center justify-between">
-
-                {/* <!--Forgot password link--> */}
-                <Link to="#!">Forgot password?</Link>
-              </div>
 
               <div className="mb-6 flex items-center justify-between">
                 {errors.loginEmail && <><span>This field is required</span><br /></>}

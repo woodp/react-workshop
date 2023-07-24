@@ -1,40 +1,23 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
-import { Navigate, Route, Routes } from 'react-router-dom'
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
 import { useEffect } from 'react';
-import { useAuth } from "./auth/useAuth";
-import { GalleryPage } from "./pages/GalleryPage";
+import { useAuth } from "./hooks/auth/useAuth";
+import Router from "./Router";
+import { useSelector } from "react-redux";
 
 function App() {
-  const { status, checkData } = useAuth()
+  const { checkLoginStatus } = useAuth()
+  const { errorMessage } = useSelector(state => state.errors)
 
   useEffect(() => {
-    checkData()
+    checkLoginStatus()
   }, [])
   
   return (
-    <Routes>
-      {
-        (status === 'authenticated') ?
-        (
-          <>
-            <Route path="/" element={ <GalleryPage />} />
-            <Route path='/*' element={<Navigate to="/" />} />
-          </>
-
-        ) :
-        (
-          <>
-            <Route path="/login" element={<LoginPage /> } />
-            <Route path="/register" element={<RegisterPage /> } />
-            <Route path='/*' element={<Navigate to="/login" />} />
-          </>
-        )
-      
-      }
-    </Routes>
+    <>
+    <div>{errorMessage}</div>
+    <Router />
+    </>
   );
 }
 
