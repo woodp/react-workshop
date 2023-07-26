@@ -1,13 +1,13 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
+import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react';
 import { useAuth } from "./hooks/auth/useAuth";
 import Router from "./Router";
-import { useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const { checkLoginStatus } = useAuth()
-  const { errorMessage } = useSelector(state => state.errors)
 
   useEffect(() => {
     checkLoginStatus()
@@ -15,9 +15,10 @@ function App() {
   
   return (
     <>
-    <div>{errorMessage}</div>
-    <Router />
+      <ToastContainer />
+      <Router />
     </>
+    
   );
 }
 

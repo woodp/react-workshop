@@ -1,11 +1,16 @@
 import GalleryColumn from "./GalleryColumn";
-import images from "../data/images.json";
 import { useState, useEffect } from "react";
+import AddImageForm from "./AddImageForm";
+import { useImageStore } from "../hooks/images/useImageStore";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const GalleryRow = () => {
   const [groups, setGroups] = useState([]);
+  const { getAllImages } = useImageStore()
+  const { user } = useSelector(state => state.auth)
 
-  const getGroupsOfTwo = () => {
+  const getGroupsOfTwo = (images) => {
     const groupOfImages = [];
     for (let i = 0; i < images.length; i += 2) {
       groupOfImages.push({ images: images.slice(i, i + 2), key: i });
@@ -14,16 +19,23 @@ const GalleryRow = () => {
   };
 
   useEffect(() => {
-    const groupsOfImages = getGroupsOfTwo();
-    setGroups(groupsOfImages);
+    getAllImages(user.email)
+    .then((images) => {
+      const groupsOfImages = getGroupsOfTwo(images);
+      setGroups(groupsOfImages);  
+    })
+    .catch((error) => toast.error(error))
   }, []);
 
   return (
-    <div className="row">
-      {groups.map((group) => (
-        <GalleryColumn images={group.images} key={group.key} />
-      ))}
-    </div>
+    <>
+      <div className="row">
+        {groups.map((group) => (
+          <GalleryColumn images={group.images} key={group.key} />
+        ))}
+      </div>
+      <AddImageForm />
+    </>
   );
 };
 

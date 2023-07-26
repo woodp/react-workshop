@@ -45,7 +45,7 @@ export default function RegisterPage() {
           <div className="mb-12 md:mb-0 md:w-8/12 lg:w-5/12 xl:w-5/12">
             <form onSubmit={handleSubmit(onSubmit)}>
 
-            <div>{errors.firstName?.message}</div>
+              <div>{errors.firstName?.message}</div>
               <TEInput
                 type="text"
                 label="First Name"
@@ -64,8 +64,7 @@ export default function RegisterPage() {
               ></TEInput>
 
               {/* <!-- Email input --> */}
-              <div>{errors.email?.message}
-              </div>
+              <div>{errors.email?.message}</div>
               <TEInput
                 type="email"
                 label="Email address"

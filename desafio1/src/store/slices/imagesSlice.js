@@ -6,13 +6,10 @@ export const imagesSlice = createSlice({
     images: [],
   },
   reducers: {
-    addImage: (state, {payload}) => {
-      state.images.push(payload)
-    },
-    resetImages: (state) => {
-      state.images = []
-    },
+    setImages: (state, {payload}) => {
+      state.images = payload
+    }
   }
 })
 
-export const { addImage, resetImages } = imagesSlice.actions;
+export const { setImages } = imagesSlice.actions;

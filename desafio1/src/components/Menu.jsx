@@ -10,14 +10,14 @@ export const Menu = () => {
   return (
     <MDBNavbar expand='lg' light bgColor='light'>
       <MDBContainer fluid>
-        <MDBNavbarBrand href='#'>Bienvenido, {user?.name || "Amigo"}</MDBNavbarBrand>
+        <MDBNavbarBrand href='#'>Welcome, {user?.name || "friend"}</MDBNavbarBrand>
         
         <MDBNavbarNav>
           <Link className='menu__link' to='/'>
             Gallery
           </Link>
           <Link className='menu__link_right' to='#logout' onClick={doLogout}>
-            Cerrar Sesión
+            Log Out
           </Link>
         </MDBNavbarNav>
 

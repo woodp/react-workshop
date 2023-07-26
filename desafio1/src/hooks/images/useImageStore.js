@@ -1,14 +1,14 @@
 import { useDispatch, useSelector } from "react-redux"
 import userAPI from "../../apis/user-api"
-import { onLoadImages } from "../store/auth/authSlice"
 import axios from "axios"
-import getEnvVariables from '../helpers/getEnvVariables'
+import { getEnvVariables } from '../../helpers/getEnvVariables'
+import { setImages } from "../../store/slices/imagesSlice"
 
 const { VITE_CLOUDINARY_URL } = getEnvVariables();
 
 // CustomHook para centralizar el manejo de APIs e imagenes
 export const useImageStore = () => {
-  const uploadPreset = 'workshop-react'
+  const uploadPreset = 'curso-react'
   // Se lee el VITE_CLOUDINARY_URL del archivo .env
   
   const { images } = useSelector(state => state.images)
@@ -16,6 +16,7 @@ export const useImageStore = () => {
 
   // Llamada a la API Cloudinary para almacenar imagenes (fetch)
   const uploadFile = async (file) => {
+    console.log(file)
     if (!file) throw new Error('No hay ningun archivo.')
     if (!file) return null
     const formData = new FormData()
@@ -26,10 +27,10 @@ export const useImageStore = () => {
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
-      const resp = await response.json()
-      if (!resp.ok) throw new Error('No se pudo subir la imagen')
+      console.log(response)
+      if (response.statusText !== 'OK') throw new Error('Failed to upload the image')
 
-      return resp.secure_url
+      return response.data.secure_url
     } catch (error) {
       console.log(error)
       throw new Error(error.message)
@@ -40,7 +41,7 @@ export const useImageStore = () => {
   const getAllImages = async (email) => {
     try {
       const { data } = await userAPI.post('/images', { email: email })
-      dispatch(onLoadImages(data.images))
+      dispatch(setImages(data.images))
       return data.images
     } catch (error) {
       console.log("Error al cargar las imagenes");
@@ -61,6 +62,7 @@ export const useImageStore = () => {
           alt: title,
         }
       ]
+      console.log(images)
       const { data } = await userAPI.put('/images', { email: email, images: images })
       console.log(data);
       return data.images
@@ -77,4 +79,3 @@ export const useImageStore = () => {
   }
 
 }
-

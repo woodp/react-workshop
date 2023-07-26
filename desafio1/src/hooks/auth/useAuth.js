@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { login, logout } from "../../store/slices/authSlice"
 import { resetErrors, setError } from "../../store/slices/errorsSlice"
 import userAPI from "../../apis/user-api"
+import { toast } from "react-toastify"
 
 export const useAuth = () => {
     const { status, user } = useSelector(state => state.auth)
@@ -35,6 +36,7 @@ export const useAuth = () => {
             dispatch(login(data))
             localStorage.setItem('user', JSON.stringify(data))
         } catch (e) {
+            toast.error('Login failed. Please check email and password.')
             console.log(e)
             dispatch(setError(e.message))
         }
@@ -54,6 +56,7 @@ export const useAuth = () => {
             dispatch(login(data))
             localStorage.setItem('user', JSON.stringify(data))
         } catch (e) {
+            toast.error(e.message)
             console.log(e)
             dispatch(setError(e.message))
         }
